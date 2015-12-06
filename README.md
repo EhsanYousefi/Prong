@@ -35,10 +35,19 @@ class Account
   define_hook :save
 
   before_save proc { self.password_salt = Random.srand unless self.password_salt }, :valid?
-  # after_save :notify, if: proc {}
+  after_save :notify, if: proc { saved? }
 
   def valid?
     raise unless self.password_salt
+  end
+
+  def saved?
+    # Must return boolean
+    true
+  end
+
+  def notify
+    # Send Async notification to account owner
   end
 
   def save
