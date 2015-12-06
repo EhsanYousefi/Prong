@@ -51,7 +51,7 @@ class Account
   end
 
   def save
-    run_hooks(:save)
+    run_hooks!(:save)
   end
 end
 ```
