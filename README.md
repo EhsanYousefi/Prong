@@ -116,8 +116,17 @@ end
 ## Instance Methods
 ### run_hooks
 `#run_hooks` run callbacks with halting feature, it means if one of the callbacks returned `false`, callback chain will be halted.
+
 `#run_hooks` takes four arguments which three of them are optional.
-first argument is name of the hook you want to run and it's required, The second argument is type of sub-hook `[:before, :around, :after, :all]`. default value is `:all`, The third argument determines return value, if you set it to `true` returned value will be Array of callbacks returned values, if you set it to `false` return value will be the response evaluated from forth argument which is a block.
+
+First argument is name of the hook you want to run and it's required,
+
+The second argument is type of the hook,It's accept these arguments `:before, :around, :after, :all`. Default value is `:all`.
+
+The third argument determines return value, if you set it to `true` return value will be array of values which returned from callbacks + value which returned from the forth argument. if you set it to `false` return value will be the value which evaluated from the forth argument.
+
+The Forth argument is a block, which will be executed in middle of `around` sub-hook. You can consider it as a return value of `#run_hooks`.
+As i said forth argument is optional, if you don't pass a block to `#run_hooks` return value will be `true` if callback chain doesn't halted.
 
 ```ruby
 class Account
@@ -135,7 +144,7 @@ end
 account = Account.new
 account.run_hooks(:update, :all, true) do
   # Do update business here
-  # return value will be Array of values which returned from callbacks + value which returned in this block
+  # return value will be Array of values which returned from callbacks + value which returned from this block
 end
 ```
 
