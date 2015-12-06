@@ -58,9 +58,8 @@ account.password_salt.nil?
 ```
 ### Class Methods
 #### define_hook
-You can define multiple hooks at once with `#define_hook`, each hook defines three sub-hooks on context class `before_*`, `around_*`, `after_*`.
-A sub-hook accept multiple arguments
-`#define_hook` takes multiple `Symbol` argument.
+You can define multiple hooks at once with `#define_hook`, each hook defines three sub-hooks on context class `before_*`, `around_*`, `after_*`.`#define_hook` takes multiple `Symbol` argument.
+
 ```ruby
 class Account
   include Prong
@@ -111,9 +110,37 @@ class X < Account
   skip_all_hooks :save, :after
   skip_all_hooks :save, :around, if: proc { self.skip?  }
 end
+```
 `#skip_all_hooks` accept condition too.
+
+## Instance Methods
+### run_hooks
+`#run_hooks` run callbacks with halting feature, it means if one of the callbacks returned `false`, callback chain will be halted.
+`#run_hooks` takes four arguments which three of them are optional.
+first argument is name of the hook you want to run and it's required, The second argument is type of sub-hook `[:before, :around, :after, :all]`. default value is `:all`, The third argument determines return value, if you set it to `true` returned value will be Array of callbacks returned values, if you set it to `false` return value will be the response evaluated from forth argument which is a block.
+
+```ruby
+class Account
+  include Prong
+  define_hook :update
+  before_update :authroized?
+  def update
+    run_hooks(:update, :all, false) do
+      # Do update business here
+      # return value is a value which evaluated from this block
+    end
+  end
+end
+
+account = Account.new
+account.run_hooks(:update, :all, true) do
+  # Do update business here
+  # return value will be Array of values which returned from callbacks + value which returned in this block
+end
 ```
 
+### run_hooks!
+The only difference between `#run_hooks!` and `#run_hooks` is `#run_hooks!` doesn't support halting feature.
 
 ## Contributing
 
