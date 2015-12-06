@@ -58,24 +58,24 @@ account.password_salt.nil?
 ```
 ### Class Methods
 #### define_hook
-You can define multiple hooks at once with `#define_hook`, each hook defines three sub-hooks on context class `before_*`, `around_*`, `after_*`.`#define_hook` takes multiple `Symbol` argument.
+You can define multiple hooks at once with `#define_hook`, each argument defines three hooks on context class `before_*`, `around_*`, `after_*`.`#define_hook` takes multiple `Symbol` argument.
 
 ```ruby
 class Account
   include Prong
   define_hook :save, :update
-  # Sub-hooks
+  # hooks
   # before_save, around_save, after_save, before_update, around_update, after_update
 end
 ```
-A sub-hook accept multiple arguments(Proc, Symbol), sub-hook consider last argument as a condition if argument is kind of `Hash` with `if` key. Prong doesn't support `unless` condition like `ActiveSupport::Callbacks` because it's unnecessary.
+A hook accept multiple arguments(Proc, Symbol), hook consider last argument as a condition if argument is kind of `Hash` with `if` key. Prong doesn't support `unless` condition like `ActiveSupport::Callbacks` because it's unnecessary.
 Condition type must be `proc`! `lambda` doesn't supported.
 
 ```ruby
 class Account
   include Prong
   define_hook :update
-  # Below sub-hook will be executed if condition return true.
+  # Below hook will be executed if condition return true.
   before_update :authorized?, proc { self.updated_at = Time.now }, if: proc { self.changed? }
 end
 ```
@@ -97,7 +97,7 @@ end
 `#skip_hook` accept condition too.
 
 ### skip_all_hooks
-You can skip all callbacks in sub-hook with `#skip_all_hooks`
+You can skip all callbacks in hook with `#skip_all_hooks`
 ```ruby
 class Account
   include Prong
@@ -121,11 +121,11 @@ end
 
 First argument is name of the hook you want to run and it's required,
 
-The second argument is type of the hook,It's accept these arguments `:before, :around, :after, :all`. Default value is `:all`.
+The second argument is type of the hook, It's accept these arguments `:before, :around, :after, :all`. Default value is `:all`.
 
 The third argument determines return value, if you set it to `true` return value will be array of values which returned from callbacks + value which returned from the forth argument. if you set it to `false` return value will be the value which evaluated from the forth argument.
 
-The Forth argument is a block, which will be executed in middle of `around` sub-hook. You can consider it as a return value of `#run_hooks`.
+The Forth argument is a block, which will be executed in middle of `around` hook. You can consider it as a return value of `#run_hooks`.
 As i said forth argument is optional, if you don't pass a block to `#run_hooks` return value will be `true` if callback chain doesn't halted.
 
 ```ruby
