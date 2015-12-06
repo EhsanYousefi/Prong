@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["ehsan.yousefi@live.com"]
 
   spec.summary       = %q{Activesupport-like callbacks but upto %20 faster.}
-  spec.description   = %q{Prong is almost behave like ActiveSupport::Callbakcs in most of the cases. It's let you define hooks, add callbacks to them, and conditionally run them whenever you want. Prong is not just another one, It's faster! It's independent! Also there is some differences}
+  spec.description   = %q{Prong is almost behave like ActiveSupport::Callbakcs in most of the cases. It's let you define hooks, add callbacks to them, and conditionally run them whenever you want. Prong is not just another one, It's faster! It's independent! Also there is some differences. }
   spec.homepage      = "https://github.com/EhsanYousefi/Prong"
   spec.license       = "MIT"
 
