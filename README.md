@@ -3,10 +3,10 @@ Activesupport-like callbacks but upto %20 faster.
 
 # Introduction
 
-Prong is almost behave like ActiveSupport::Callbakcs in most of the cases. It's let you define hooks, add callbacks to them, and conditionally run them whenever you want. Prong is not just another one, It's faster! It's independent! Also there's some differences.
+Prong is almost behave like ActiveSupport::Callbakcs in most of the cases. Its let you define hooks, add callbacks to them, and conditionally run them whenever you want. Prong is not just another one, It's faster! It's independent! Also there's some differences.
 
 There are some functionalities like `reset_callbacks`,`scope` which unfortunately not supported in version 1.0.0.
-I'll add those functionalities in next version.
+I'll add those functionalities in the next version.
 
 ## Installation
 
